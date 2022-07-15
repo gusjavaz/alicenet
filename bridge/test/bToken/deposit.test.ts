@@ -86,6 +86,17 @@ describe("Testing BToken Deposit methods", async () => {
     expect(await getState(fixture)).to.be.deep.equal(expectedState);
   });
 
+  it("Should not deposit funds on side-chain without burning main-chain tokens then not affecting balances if not admin", async () => {
+    expectedState = await getState(fixture);
+    await expect(
+      fixture.bToken
+        .connect(user)
+        .virtualMintDeposit(1, user.address, bTokenDeposit)
+    ).to.be.revertedWith(
+      `Error: VM Exception while processing transaction: reverted with custom error SenderNotAdmin("${user.address}")`
+    );
+  });
+
   it("Should deposit funds on side-chain without burning main-chain tokens then not affecting balances", async () => {
     expectedState = await getState(fixture);
     // Calculate the amount of bytes per eth value sent
