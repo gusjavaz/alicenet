@@ -1,7 +1,9 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { BigNumber } from "ethers";
 import { ethers } from "hardhat";
+import { assertErrorMessage } from "../chai-helpers";
 import { expect } from "../chai-setup";
+
 import {
   callFunctionAndGetReturnValues,
   factoryCallAnyFixture,
@@ -87,13 +89,11 @@ describe("Testing BToken Deposit methods", async () => {
   });
 
   it("Should not deposit funds on side-chain without burning main-chain tokens then not affecting balances if not admin", async () => {
-    expectedState = await getState(fixture);
-    await expect(
+    await assertErrorMessage(
       fixture.bToken
         .connect(user)
-        .virtualMintDeposit(1, user.address, bTokenDeposit)
-    ).to.be.revertedWith(
-      `Error: VM Exception while processing transaction: reverted with custom error SenderNotAdmin("${user.address}")`
+        .virtualMintDeposit(1, user.address, bTokenDeposit),
+      `SenderNotAdmin("${user.address}")`
     );
   });
 
