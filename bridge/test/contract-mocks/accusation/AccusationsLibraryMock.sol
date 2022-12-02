@@ -13,10 +13,11 @@ contract AccusationsLibraryMock {
         return AccusationsLibrary.recoverSigner(signature, prefix, message);
     }
 
-    function recoverMadNetSigner(
-        bytes memory signature,
-        bytes memory message
-    ) public pure returns (address) {
+    function recoverMadNetSigner(bytes memory signature, bytes memory message)
+        public
+        pure
+        returns (address)
+    {
         return AccusationsLibrary.recoverMadNetSigner(signature, message);
     }
 
@@ -24,9 +25,11 @@ contract AccusationsLibraryMock {
         return AccusationsLibrary.computeUTXOID(txHash, txIdx);
     }
 
-    function recoverGroupSignature(
-        bytes calldata bClaimsSigGroup_
-    ) public pure returns (uint256[4] memory publicKey, uint256[2] memory signature) {
+    function recoverGroupSignature(bytes calldata bClaimsSigGroup_)
+        public
+        pure
+        returns (uint256[4] memory publicKey, uint256[2] memory signature)
+    {
         (publicKey, signature) = RCertParserLibrary.extractSigGroup(bClaimsSigGroup_, 0);
     }
 }

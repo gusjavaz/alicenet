@@ -38,10 +38,8 @@ interface IDynamics {
     event NewAliceNetNodeVersionAvailable(CanonicalVersion version);
     event NewCanonicalAliceNetNodeVersion(CanonicalVersion version);
 
-    function changeDynamicValues(
-        uint32 relativeExecutionEpoch,
-        DynamicValues memory newValue
-    ) external;
+    function changeDynamicValues(uint32 relativeExecutionEpoch, DynamicValues memory newValue)
+        external;
 
     function updateHead(uint32 currentEpoch) external;
 
@@ -62,6 +60,8 @@ interface IDynamics {
     function getLatestAliceNetVersion() external view returns (CanonicalVersion memory);
 
     function getLatestDynamicValues() external view returns (DynamicValues memory);
+
+    function getAllDynamicValues() external view returns (DynamicValues[] memory);
 
     function getPreviousDynamicValues(uint256 epoch) external view returns (DynamicValues memory);
 

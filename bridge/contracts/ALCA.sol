@@ -20,9 +20,7 @@ contract ALCA is IStakingToken, ERC20, ImmutableFactory, ImmutableALCAMinter, Im
     address internal immutable _legacyToken;
     bool internal _hasEarlyStageEnded;
 
-    constructor(
-        address legacyToken_
-    )
+    constructor(address legacyToken_)
         ERC20("AliceNet Staking Token", "ALCA")
         ImmutableFactory(msg.sender)
         ImmutableALCAMinter()

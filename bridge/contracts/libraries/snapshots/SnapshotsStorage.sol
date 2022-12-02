@@ -37,10 +37,12 @@ abstract contract SnapshotsStorage is
     //new snapshot ring buffer
     SnapshotBuffer internal _snapshots;
 
-    constructor(
-        uint256 chainId_,
-        uint256 epochLength_
-    ) ImmutableFactory(msg.sender) ImmutableETHDKG() ImmutableValidatorPool() ImmutableDynamics() {
+    constructor(uint256 chainId_, uint256 epochLength_)
+        ImmutableFactory(msg.sender)
+        ImmutableETHDKG()
+        ImmutableValidatorPool()
+        ImmutableDynamics()
+    {
         _chainId = chainId_;
         _epochLength = epochLength_;
     }

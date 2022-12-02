@@ -101,10 +101,11 @@ library CustomEnumerableMaps {
      *
      * - `index` must be strictly less than {length}.
      */
-    function at(
-        ValidatorDataMap storage map,
-        uint256 index
-    ) internal view returns (ValidatorData memory) {
+    function at(ValidatorDataMap storage map, uint256 index)
+        internal
+        view
+        returns (ValidatorData memory)
+    {
         return map._values[index];
     }
 
@@ -113,10 +114,11 @@ library CustomEnumerableMaps {
      * Does not revert if `key` is not in the map.
      *
      */
-    function tryGet(
-        ValidatorDataMap storage map,
-        address key
-    ) internal view returns (bool, ValidatorData memory) {
+    function tryGet(ValidatorDataMap storage map, address key)
+        internal
+        view
+        returns (bool, ValidatorData memory)
+    {
         uint256 index = map._indexes[key];
         if (index == 0) {
             return (false, ValidatorData(address(0), 0));
@@ -132,10 +134,11 @@ library CustomEnumerableMaps {
      *
      * - `key` must be in the map.
      */
-    function get(
-        ValidatorDataMap storage map,
-        address key
-    ) internal view returns (ValidatorData memory) {
+    function get(ValidatorDataMap storage map, address key)
+        internal
+        view
+        returns (ValidatorData memory)
+    {
         (bool success, ValidatorData memory value) = tryGet(map, key);
         if (!success) {
             revert CustomEnumerableMapsErrors.KeyNotInMap(key);

@@ -70,7 +70,14 @@ interface IValidatorPool {
 
     function getDisputerReward() external view returns (uint256);
 
-    function tryGetTokenID(address account_) external view returns (bool, address, uint256);
+    function tryGetTokenID(address account_)
+        external
+        view
+        returns (
+            bool,
+            address,
+            uint256
+        );
 
     function isValidator(address participant) external view returns (bool);
 

@@ -63,9 +63,11 @@ contract ALCB is
         uint256 amount
     );
 
-    constructor(
-        address centralBridgeRouterAddress_
-    ) ERC20("AliceNet Utility Token", "ALCB") ImmutableFactory(msg.sender) ImmutableDistribution() {
+    constructor(address centralBridgeRouterAddress_)
+        ERC20("AliceNet Utility Token", "ALCB")
+        ImmutableFactory(msg.sender)
+        ImmutableDistribution()
+    {
         if (centralBridgeRouterAddress_ == address(0)) {
             revert UtilityTokenErrors.CannotSetRouterToZeroAddress();
         }
@@ -103,7 +105,11 @@ contract ALCB is
      * @param amount_ The amount of ALCBs to be deposited
      * @return The deposit ID of the deposit created
      */
-    function deposit(uint8 accountType_, address to_, uint256 amount_) public returns (uint256) {
+    function deposit(
+        uint8 accountType_,
+        address to_,
+        uint256 amount_
+    ) public returns (uint256) {
         return _deposit(accountType_, to_, amount_);
     }
 
@@ -244,7 +250,11 @@ contract ALCB is
      * worth less than this amount the transaction is reverted.
      * @return numEth the number of ether being received
      * */
-    function burnTo(address to_, uint256 amount_, uint256 minEth_) public returns (uint256 numEth) {
+    function burnTo(
+        address to_,
+        uint256 amount_,
+        uint256 minEth_
+    ) public returns (uint256 numEth) {
         numEth = _burn(msg.sender, to_, amount_, minEth_);
         return numEth;
     }
@@ -362,10 +372,11 @@ contract ALCB is
      * @return numEth the amount ether that will be necessary to mint an amount of ALCBs at a
      * certain point in the bonding curve
      * */
-    function getEthToMintTokens(
-        uint256 totalSupply_,
-        uint256 numBTK_
-    ) public pure returns (uint256 numEth) {
+    function getEthToMintTokens(uint256 totalSupply_, uint256 numBTK_)
+        public
+        pure
+        returns (uint256 numEth)
+    {
         return _getEthToMintTokens(totalSupply_, numBTK_);
     }
 
@@ -395,10 +406,11 @@ contract ALCB is
      * @return the amount of ALCBs that will be minted at given a point in the bonding
      * curve.
      * */
-    function getMintedTokensFromEth(
-        uint256 poolBalance_,
-        uint256 numEth_
-    ) public pure returns (uint256) {
+    function getMintedTokensFromEth(uint256 poolBalance_, uint256 numEth_)
+        public
+        pure
+        returns (uint256)
+    {
         return _ethToTokens(poolBalance_, numEth_ / _MARKET_SPREAD);
     }
 
@@ -432,7 +444,11 @@ contract ALCB is
 
     // Internal function that does the deposit in the AliceNet Chain, i.e emit the
     // event DepositReceived. All the ALCBs sent to this function are burned.
-    function _deposit(uint8 accountType_, address to_, uint256 amount_) internal returns (uint256) {
+    function _deposit(
+        uint8 accountType_,
+        address to_,
+        uint256 amount_
+    ) internal returns (uint256) {
         if (to_.isContract()) {
             revert UtilityTokenErrors.ContractsDisallowedDeposits(to_);
         }
@@ -579,10 +595,11 @@ contract ALCB is
 
     // Internal function to compute the amount of ether required to mint an amount
     // of ALCBs. Inverse of the _ethToALCBs function.
-    function _getEthToMintTokens(
-        uint256 totalSupply_,
-        uint256 numBTK_
-    ) internal pure returns (uint256 numEth) {
+    function _getEthToMintTokens(uint256 totalSupply_, uint256 numBTK_)
+        internal
+        pure
+        returns (uint256 numEth)
+    {
         return (_pInverse(totalSupply_ + numBTK_) - _pInverse(totalSupply_)) * _MARKET_SPREAD;
     }
 

@@ -10,7 +10,11 @@ struct Deposit {
 interface IUtilityToken {
     function distribute() external returns (bool);
 
-    function deposit(uint8 accountType_, address to_, uint256 amount_) external returns (uint256);
+    function deposit(
+        uint8 accountType_,
+        address to_,
+        uint256 amount_
+    ) external returns (uint256);
 
     function virtualMintDeposit(
         uint8 accountType_,
@@ -58,10 +62,10 @@ interface IUtilityToken {
 
     function getMarketSpread() external pure returns (uint256);
 
-    function getEthToMintTokens(
-        uint256 totalSupply_,
-        uint256 numBTK_
-    ) external pure returns (uint256 numEth);
+    function getEthToMintTokens(uint256 totalSupply_, uint256 numBTK_)
+        external
+        pure
+        returns (uint256 numEth);
 
     function getEthFromTokensBurn(
         uint256 poolBalance_,
@@ -69,8 +73,8 @@ interface IUtilityToken {
         uint256 numBTK_
     ) external pure returns (uint256 numEth);
 
-    function getMintedTokensFromEth(
-        uint256 poolBalance_,
-        uint256 numEth_
-    ) external pure returns (uint256);
+    function getMintedTokensFromEth(uint256 poolBalance_, uint256 numEth_)
+        external
+        pure
+        returns (uint256);
 }

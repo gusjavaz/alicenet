@@ -56,7 +56,7 @@ contract Lockup is
         PostLock
     }
 
-    uint256 public constant SCALING_FACTOR = 10 ** 18;
+    uint256 public constant SCALING_FACTOR = 10**18;
     uint256 public constant FRACTION_RESERVED = SCALING_FACTOR / 5;
     // rewardPool contract address
     address internal immutable _rewardPool;
@@ -254,10 +254,11 @@ contract Lockup is
     /// @return payoutEth the amount of eth that was sent to user discounting the reserved amount
     /// @return payoutToken the amount of ALCA discounting the reserved amount that was sent or
     /// staked as new position to the user
-    function unlockEarly(
-        uint256 exitValue_,
-        bool stakeExit_
-    ) public excludePostLock returns (uint256 payoutEth, uint256 payoutToken) {
+    function unlockEarly(uint256 exitValue_, bool stakeExit_)
+        public
+        excludePostLock
+        returns (uint256 payoutEth, uint256 payoutToken)
+    {
         uint256 tokenID = _validateAndGetTokenId();
         // get the number of shares and check validity
         uint256 shares = _getNumShares(tokenID);
@@ -353,10 +354,12 @@ contract Lockup is
     /// into a new publicStaking position.
     /// @return payoutEth the ether amount deposited to an address after unlock
     /// @return payoutToken the ALCA amount staked or sent to an address after unlock
-    function unlock(
-        address to_,
-        bool stakeExit_
-    ) public onlyPostLock onlyPayoutSafe returns (uint256 payoutEth, uint256 payoutToken) {
+    function unlock(address to_, bool stakeExit_)
+        public
+        onlyPostLock
+        onlyPayoutSafe
+        returns (uint256 payoutEth, uint256 payoutToken)
+    {
         uint256 tokenID = _validateAndGetTokenId();
         uint256 shares = _getNumShares(tokenID);
         bool isLastPosition = _lenTokenIDs == 1;
@@ -470,9 +473,11 @@ contract Lockup is
     /// @notice estimate the (liquid) income that can be collected from locked positions via
     /// {collectAllProfits}
     /// @dev this functions deducts the reserved amount that is sent to rewardPool contract
-    function estimateProfits(
-        uint256 tokenID_
-    ) public view returns (uint256 payoutEth, uint256 payoutToken) {
+    function estimateProfits(uint256 tokenID_)
+        public
+        view
+        returns (uint256 payoutEth, uint256 payoutToken)
+    {
         // check if the position owned by this contract
         _verifyLockedPosition(tokenID_);
         (payoutEth, payoutToken) = IStakingNFT(_publicStakingAddress()).estimateAllProfits(
@@ -495,10 +500,15 @@ contract Lockup is
     /// @return positionShares_ the positions ALCA shares
     /// @return payoutEth_ the ether amount that the position will receive as profit
     /// @return payoutToken_ the ALCA amount that the position will receive as profit
-    function estimateFinalBonusWithProfits(
-        uint256 tokenID_,
-        bool preciseEstimation_
-    ) public view returns (uint256 positionShares_, uint256 payoutEth_, uint256 payoutToken_) {
+    function estimateFinalBonusWithProfits(uint256 tokenID_, bool preciseEstimation_)
+        public
+        view
+        returns (
+            uint256 positionShares_,
+            uint256 payoutEth_,
+            uint256 payoutToken_
+        )
+    {
         // check if the position owned by this contract
         _verifyLockedPosition(tokenID_);
         positionShares_ = _getNumShares(tokenID_);
@@ -581,10 +591,10 @@ contract Lockup is
         emit NewLockup(tokenOwner_, tokenID_);
     }
 
-    function _burnLockedPosition(
-        uint256 tokenID_,
-        address tokenOwner_
-    ) internal returns (uint256 payoutEth, uint256 payoutToken) {
+    function _burnLockedPosition(uint256 tokenID_, address tokenOwner_)
+        internal
+        returns (uint256 payoutEth, uint256 payoutToken)
+    {
         // burn the old position
         (payoutEth, payoutToken) = IStakingNFT(_publicStakingAddress()).burn(tokenID_);
         //delete tokenID_ from iterable tokenID mapping
@@ -593,9 +603,10 @@ contract Lockup is
         delete (_ownerOf[tokenID_]);
     }
 
-    function _withdrawalAggregatedAmount(
-        address account_
-    ) internal returns (uint256 payoutEth, uint256 payoutToken) {
+    function _withdrawalAggregatedAmount(address account_)
+        internal
+        returns (uint256 payoutEth, uint256 payoutToken)
+    {
         // case of we are sending out final pay based on request just pay all
         payoutEth = _rewardEth[account_];
         payoutToken = _rewardTokens[account_];
@@ -603,10 +614,10 @@ contract Lockup is
         _rewardTokens[account_] = 0;
     }
 
-    function _collectAllProfits(
-        address payable acct_,
-        uint256 tokenID_
-    ) internal returns (uint256 payoutEth, uint256 payoutToken) {
+    function _collectAllProfits(address payable acct_, uint256 tokenID_)
+        internal
+        returns (uint256 payoutEth, uint256 payoutToken)
+    {
         (payoutEth, payoutToken) = IStakingNFT(_publicStakingAddress()).collectAllProfits(tokenID_);
         return _distributeAllProfits(acct_, payoutEth, payoutToken, 0, false);
     }
@@ -729,10 +740,11 @@ contract Lockup is
         }
     }
 
-    function _estimateUserAggregatedProfits(
-        uint256 userShares_,
-        uint256 totalShares_
-    ) internal view returns (uint256 payoutEth, uint256 payoutToken) {
+    function _estimateUserAggregatedProfits(uint256 userShares_, uint256 totalShares_)
+        internal
+        view
+        returns (uint256 payoutEth, uint256 payoutToken)
+    {
         (payoutEth, payoutToken) = _estimateTotalAggregatedProfits();
         payoutEth = (payoutEth * userShares_) / totalShares_;
         payoutToken = (payoutToken * userShares_) / totalShares_;
@@ -811,10 +823,11 @@ contract Lockup is
         return (_rewardEth[user_], _rewardTokens[user_]);
     }
 
-    function _computeReservedAmount(
-        uint256 payoutEth_,
-        uint256 payoutToken_
-    ) internal pure returns (uint256 reservedEth, uint256 reservedToken) {
+    function _computeReservedAmount(uint256 payoutEth_, uint256 payoutToken_)
+        internal
+        pure
+        returns (uint256 reservedEth, uint256 reservedToken)
+    {
         reservedEth = (payoutEth_ * FRACTION_RESERVED) / SCALING_FACTOR;
         reservedToken = (payoutToken_ * FRACTION_RESERVED) / SCALING_FACTOR;
     }

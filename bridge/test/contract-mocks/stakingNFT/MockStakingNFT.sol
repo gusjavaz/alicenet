@@ -12,7 +12,11 @@ contract MockStakingNFT is StakingNFT {
         return StakingNFT.mint(amount_);
     }
 
-    function mintToMock(address to_, uint256 amount_, uint256 duration_) public returns (uint256) {
+    function mintToMock(
+        address to_,
+        uint256 amount_,
+        uint256 duration_
+    ) public returns (uint256) {
         return StakingNFT.mintTo(to_, amount_, duration_);
     }
 
@@ -114,15 +118,23 @@ contract MockStakingNFT is StakingNFT {
         Accumulator memory state_,
         Position memory p_,
         uint256 positionAccumulatorValue_
-    ) public returns (Accumulator memory, Position memory, uint256, uint256) {
+    )
+        public
+        returns (
+            Accumulator memory,
+            Position memory,
+            uint256,
+            uint256
+        )
+    {
         _dummy = 0;
         return StakingNFT._calculateCollection(shares_, state_, p_, positionAccumulatorValue_);
     }
 
-    function depositMock(
-        uint256 delta_,
-        Accumulator memory state_
-    ) public returns (Accumulator memory) {
+    function depositMock(uint256 delta_, Accumulator memory state_)
+        public
+        returns (Accumulator memory)
+    {
         _dummy = 0;
         return StakingNFT._deposit(delta_, state_);
     }
@@ -164,9 +176,17 @@ contract MockStakingNFT is StakingNFT {
         return StakingNFT.estimateExcessToken();
     }
 
-    function getPositionMock(
-        uint256 tokenID_
-    ) public view returns (uint256, uint256, uint256, uint256, uint256) {
+    function getPositionMock(uint256 tokenID_)
+        public
+        view
+        returns (
+            uint256,
+            uint256,
+            uint256,
+            uint256,
+            uint256
+        )
+    {
         return StakingNFT.getPosition(tokenID_);
     }
 
@@ -195,14 +215,24 @@ contract MockStakingNFT is StakingNFT {
         Accumulator memory state_,
         Position memory p_,
         uint256 positionAccumulatorValue_
-    ) public pure returns (Accumulator memory, Position memory, uint256, uint256) {
+    )
+        public
+        pure
+        returns (
+            Accumulator memory,
+            Position memory,
+            uint256,
+            uint256
+        )
+    {
         return StakingNFT._calculateCollection(shares_, state_, p_, positionAccumulatorValue_);
     }
 
-    function depositPure(
-        uint256 delta_,
-        Accumulator memory state_
-    ) public pure returns (Accumulator memory) {
+    function depositPure(uint256 delta_, Accumulator memory state_)
+        public
+        pure
+        returns (Accumulator memory)
+    {
         return StakingNFT._deposit(delta_, state_);
     }
 

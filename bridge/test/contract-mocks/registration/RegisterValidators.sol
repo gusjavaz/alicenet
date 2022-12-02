@@ -64,9 +64,7 @@ contract RegisterValidators is
     uint256 public constant EPOCH_LENGTH = 1024;
     ExternalStoreRegistration internal immutable _externalStore;
 
-    constructor(
-        address factory_
-    )
+    constructor(address factory_)
         ImmutableFactory(factory_)
         ImmutableSnapshots()
         ImmutableETHDKG()
